@@ -25,18 +25,16 @@ class HalfBlindChessGame {
 
     private initializeHalfBlindBoard(): HalfBlindBoard {
         const board: Board = this.getBoard();
-        return board.map((boardRow: Array<Piece | null>) => 
-            boardRow.map(piece => 
-                piece !== null 
-                    ? { ...piece, halfBlind: false }
-                    : null
+        return board.map((boardRow: Array<Piece | null>) =>
+            boardRow.map((piece) =>
+                piece !== null ? { ...piece, halfBlind: false } : null
             )
         );
     }
 
     /**
      * Get the actual game board
-     * 
+     *
      * @returns Board: chess game board
      */
     public getBoard(): Board {
@@ -45,7 +43,7 @@ class HalfBlindChessGame {
 
     /**
      * Get the game board with half-blind information
-     * 
+     *
      * @returns HalfBlindBoard: chess game board with half-blind information
      */
     public getHalfBlindBoard(): HalfBlindBoard {
@@ -60,9 +58,8 @@ class HalfBlindChessGame {
      */
     public move(move: string): HalfBlindMove | null {
         const moveResult: Move | null = this.chess.move(move);
-        const halfBlindMoveResult: HalfBlindMove | null = moveResult !== null 
-            ? { ...moveResult, halfBlind: false } 
-            : null;
+        const halfBlindMoveResult: HalfBlindMove | null =
+            moveResult !== null ? { ...moveResult, halfBlind: false } : null;
 
         if (halfBlindMoveResult !== null && this.moveNumber % 3 == 2) {
             halfBlindMoveResult.halfBlind = true;
@@ -84,7 +81,7 @@ class HalfBlindChessGame {
 
     /**
      * Get board in readable format
-     * 
+     *
      * @returns String: board in readable format
      */
     public getAscii(): String {
