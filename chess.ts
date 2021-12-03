@@ -3,32 +3,28 @@ import { Chess, ChessInstance, Move, Piece } from "chess.js";
 type Board = Array<Array<Piece | null>>;
 type HalfBlindBoard = Array<Array<HalfBlindPiece | null>>;
 
-interface HalfBlindMove extends Move {
+export interface HalfBlindMove extends Move {
     /**
      * Whether or not the move is half-blind.
      */
     halfBlind: boolean;
 }
 
-interface HalfBlindPiece extends Piece {
+export interface HalfBlindPiece extends Piece {
     /**
      * Whether or not the piece is in a half-blind state.
      */
     halfBlind: boolean;
 }
 
-class HalfBlindChessGame {
+export default class HalfBlindChessGame {
     private chess: ChessInstance = new Chess();
     private moveNumber: number = 1;
     private halfBlindBoard: HalfBlindBoard = this.initializeHalfBlindBoard();
 
     private initializeHalfBlindBoard(): HalfBlindBoard {
         const board: Board = this.getBoard();
-        return board.map((boardRow: Array<Piece | null>) =>
-            boardRow.map(piece =>
-                piece !== null ? { ...piece, halfBlind: false } : null
-            )
-        );
+        return this.convertBoardToHalfBlindBoard(board);
     }
 
     /**
@@ -81,9 +77,8 @@ class HalfBlindChessGame {
                 this.squareToBoardCoordinates(halfBlindMoveResult.to),
             ];
 
-            let piece: HalfBlindPiece | null = this.halfBlindBoard[
-                fromCoordinate[0]
-            ][fromCoordinate[1]];
+            let piece: HalfBlindPiece | null =
+                this.halfBlindBoard[fromCoordinate[0]][fromCoordinate[1]];
 
             if (piece !== null)
                 piece = {
@@ -165,19 +160,12 @@ class HalfBlindChessGame {
         return s;
     }
 
-    public playRandomOpening(moveNumber: number) {
-        this.moveNumber = 1;
-
-        for (let i: number = 0; i < moveNumber; i++) {
-            const possibleMoves: string[] = this.chess.moves();
-            const nextMove: string =
-                possibleMoves[Math.floor(Math.random() * possibleMoves.length)];
-            console.log(nextMove);
-            this.move(nextMove);
-        }
+    /**
+     * Get the actual game board in FEN format.
+     *
+     * @returns string: board in FEN format
+     */
+    public getFen(): string {
+        return this.chess.fen();
     }
 }
-
-const chess: HalfBlindChessGame = new HalfBlindChessGame();
-chess.playRandomOpening(2);
-console.log(chess.getHalfBlindAscii());
