@@ -1,6 +1,6 @@
 {
     "name": "halfblindchess",
-    "version": "0.1.1",
+    "version": "0.1.2",
     "author": "Ben Chaplin <benchaplin@protonmail.ch>",
     "license": "ISC",
     "description": "A library for the half-blind chess variant",
