@@ -1,13 +1,29 @@
 {
     "name": "halfblindchess",
-    "version": "1.0.0",
-    "description": "",
-    "scripts": {
-        "start": "ts-node-dev --respawn ./chess.ts",
-        "test": "jest"
-    },
-    "author": "",
+    "version": "0.1.1",
+    "author": "Ben Chaplin <benchaplin@protonmail.ch>",
     "license": "ISC",
+    "description": "A library for the half-blind chess variant",
+    "main": "dist/index.js",
+    "types": "dist/index.d.ts",
+    "homepage": "https://github.com/benchaplin/halfblindchess",
+    "keywords": [
+        "half",
+        "blind",
+        "chess",
+        "half-blind",
+        "halfblind",
+        "halfblindchess"
+    ],
+    "repository": {
+        "type": "git",
+        "url": "https://github.com/benchaplin/halfblindchess.git"
+    },
+    "scripts": {
+        "test": "jest",
+        "build": "rimraf dist && tsc",
+        "prepublish": "npm run build"
+    },
     "dependencies": {
         "chess.js": "^0.11.0"
     },
@@ -17,6 +33,7 @@
         "@types/chess.js": "^0.10.1",
         "@types/jest": "^27.0.3",
         "jest": "^27.4.3",
+        "rimraf": "^3.0.2",
         "ts-node": "^9.0.0",
         "ts-node-dev": "^1.0.0",
         "typescript": "^4.0.3"
