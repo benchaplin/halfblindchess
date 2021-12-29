@@ -22,6 +22,10 @@ yarn add halfblindchess
 
 ## API
 
+```js
+
+```
+
 ### Constructor: HalfBlindChess()
 
 Construct the chess game object with the board in the starting position.
