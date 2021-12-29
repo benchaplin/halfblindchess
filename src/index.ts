@@ -17,7 +17,7 @@ export interface HalfBlindPiece extends Piece {
     halfBlind: boolean;
 }
 
-export default class HalfBlindChess {
+export class HalfBlindChess {
     private chess: ChessInstance = new Chess();
     private moveNumber: number = 1;
     private hbBoard: HalfBlindBoard = this.initializeHalfBlindBoard();

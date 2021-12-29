@@ -1,4 +1,4 @@
-import HalfBlindChess, { HalfBlindMove } from "../";
+import { HalfBlindChess, HalfBlindMove } from "../";
 
 test("constructor should initialize a game board", () => {
     const hbchess: HalfBlindChess = new HalfBlindChess();

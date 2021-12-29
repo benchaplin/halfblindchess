@@ -6,6 +6,9 @@
     "description": "A library for the half-blind chess variant",
     "main": "dist/index.js",
     "types": "dist/index.d.ts",
+    "files": [
+        "/dist"
+    ],
     "homepage": "https://github.com/benchaplin/halfblindchess",
     "keywords": [
         "half",
