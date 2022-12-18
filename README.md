@@ -23,7 +23,7 @@ yarn add halfblindchess
 ## API
 
 ```js
-
+import { HalfBlindChess } from "halfblindchess";
 ```
 
 ### Constructor: HalfBlindChess()
