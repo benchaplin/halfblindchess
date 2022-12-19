@@ -1,6 +1,6 @@
 {
     "name": "halfblindchess",
-    "version": "1.0.0",
+    "version": "1.0.1",
     "author": "Ben Chaplin <benchaplin@protonmail.ch>",
     "license": "ISC",
     "description": "A library for the half-blind chess variant",
@@ -28,12 +28,12 @@
         "prepublish": "npm run build"
     },
     "dependencies": {
+        "@types/chess.js": "^0.10.1",
         "chess.js": "^0.11.0"
     },
     "devDependencies": {
         "@babel/preset-env": "^7.16.4",
         "@babel/preset-typescript": "^7.16.0",
-        "@types/chess.js": "^0.10.1",
         "@types/jest": "^27.0.3",
         "jest": "^27.4.3",
         "rimraf": "^3.0.2",
