@@ -1,4 +1,4 @@
-import { Chess, ChessInstance, Move, Piece, Square } from "chess.js";
+import { Chess, ChessInstance, Comment, Move, Piece, Square } from "chess.js";
 
 export type Board = Array<Array<Piece | null>>;
 export type HalfBlindBoard = Array<Array<HalfBlindPiece | null>>;
@@ -465,5 +465,25 @@ export class HalfBlindChess implements ChessInstance {
         verbose?: boolean;
     }): string[] | Move[] {
         return this.chess.history(options);
+    }
+
+    public get_comment(): string | undefined {
+        return this.chess.get_comment();
+    }
+
+    public set_comment(comment: string): void {
+        return this.chess.set_comment(comment);
+    }
+
+    public delete_comment(): string | undefined {
+        return this.chess.delete_comment();
+    }
+
+    public get_comments(): Comment[] {
+        return this.chess.get_comments();
+    }
+
+    public delete_comments(): Comment[] {
+        return this.chess.delete_comments();
     }
 }
