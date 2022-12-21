@@ -100,6 +100,12 @@ test("constructor should initialize a half-blind board", () => {
     ]);
 });
 
+test("constructor should take a fen", () => {
+    const fen = "rnbqkbnr/pppp1ppp/8/4p3/4P3/8/PPPP1PPP/RNBQKBNR w KQkq - 0 2"
+    const hbchess = new HalfBlindChess(fen);
+    expect(hbchess.fen()).toEqual(fen);
+});
+
 test("move should return a HalfBlindMove object if legal", () => {
     const hbchess: HalfBlindChess = new HalfBlindChess();
     const move: HalfBlindMove | null = hbchess.move("e4");

@@ -17,6 +17,9 @@ export interface HalfBlindPiece extends Piece {
     halfBlind: boolean;
 }
 
+export const DEFAULT_POSITION =
+    'rnbqkbnr/pppppppp/8/8/8/8/PPPPPPPP/RNBQKBNR w KQkq - 0 1'
+
 export class HalfBlindChess implements ChessInstance {
     private chess: ChessInstance = new Chess();
     private moveNumber: number = 1;
@@ -27,29 +30,33 @@ export class HalfBlindChess implements ChessInstance {
         return this.convertBoardToHalfBlindBoard(board);
     }
 
+    public constructor(fen = DEFAULT_POSITION) {
+        this.load(fen)
+    }
+
     /** The string that represents the White color side */
-    public readonly WHITE = this.chess.WHITE; 
+    public readonly WHITE = this.chess.WHITE;
 
     /** The string that represents the Black color side */
-    public readonly BLACK = this.chess.BLACK; 
+    public readonly BLACK = this.chess.BLACK;
 
     /** The string that represents a Pawn */
-    public readonly PAWN = this.chess.PAWN; 
+    public readonly PAWN = this.chess.PAWN;
 
     /** The string that represents a Knight */
-    public readonly KNIGHT = this.chess.KNIGHT; 
+    public readonly KNIGHT = this.chess.KNIGHT;
 
     /** The string that represents a Bishop */
     public readonly BISHOP = this.chess.BISHOP;
 
     /** The string that represents a Rook */
-    public readonly ROOK = this.chess.ROOK; 
+    public readonly ROOK = this.chess.ROOK;
 
     /** The string that represents a Queen */
-    public readonly QUEEN = this.chess.QUEEN; 
+    public readonly QUEEN = this.chess.QUEEN;
 
     /** The string that represents a King */
-    public readonly KING = this.chess.KING; 
+    public readonly KING = this.chess.KING;
 
     /** A list of all the squares in the game, from "a1" to "h8" */
     public readonly SQUARES = this.chess.SQUARES;
@@ -92,8 +99,8 @@ export class HalfBlindChess implements ChessInstance {
                                 ? `(${piece?.toUpperCase()})`
                                 : `(${piece?.toLowerCase()})`
                             : color === "w"
-                            ? ` ${piece?.toUpperCase()} `
-                            : ` ${piece?.toLowerCase()} `;
+                                ? ` ${piece?.toUpperCase()} `
+                                : ` ${piece?.toLowerCase()} `;
                         s += symbol;
                     }
                 }
@@ -190,7 +197,7 @@ export class HalfBlindChess implements ChessInstance {
      * @returns The list of all valid moves, either in SAN format, or as
      * verbose objects.
      */
-    public moves(options: { verbose: true; square?: string | undefined; }): Move[]; 
+    public moves(options: { verbose: true; square?: string | undefined; }): Move[];
     public moves(options?: { verbose?: false; square?: string; }): string[];
     public moves(options?: { verbose?: boolean, square?: string }): Move[] | string[] {
         return this.chess.moves(options);

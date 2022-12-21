@@ -2,9 +2,9 @@
 
 halfblindchess is a Javascript chess library for the half-blind chess variant. The variant works as follows:
 
--   Every third turn, starting on black's first move, a player makes a **half-blind move**.
--   A **half-blind move** is a move in which the opposing player only sees _which_ piece was moved, not _where_ it was moved to.
-    -   The position of the piece remains hidden until the next turn has been made.
+- Every third turn, starting on black's first move, a player makes a **half-blind move**.
+- A **half-blind move** is a move in which the opposing player only sees _which_ piece was moved, not _where_ it was moved to.
+  - The position of the piece remains hidden until the next turn has been made.
 
 This library is built on top of [chess.js](https://github.com/jhlywa/chess.js/).
 
@@ -32,6 +32,14 @@ Construct the chess game object with the board in the starting position.
 
 ```js
 const hbchess = new HalfBlindChess();
+```
+
+Or, construct using a FEN.
+
+```js
+const hbchess = new HalfBlindChess(
+  "rnbqkbnr/pppp1ppp/8/4p3/4P3/8/PPPP1PPP/RNBQKBNR w KQkq - 0 2"
+);
 ```
 
 ### .ascii()
@@ -155,6 +163,6 @@ chess.moves();
 //     'f3', 'f4', 'g3', 'g4', 'h3', 'h4', 'Na3', 'Nc3', 'Nf3', 'Nh3']
 ```
 
-### *the rest*
+### _the rest_
 
 The class `HalfBlindChess implements ChessInstance`, and the rest of the [chess.js API](https://github.com/jhlywa/chess.js/blob/master/README.md#api) is exposed in `HalfBlindChess`, unchanged from the underlying chess.js implementation.
