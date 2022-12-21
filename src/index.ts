@@ -1,7 +1,9 @@
-import { Chess, ChessInstance, Comment, Move, Piece, Square } from "chess.js";
+import { Chess, ChessInstance, Comment, Move, Piece, ShortMove, Square } from "chess.js";
 
 export type Board = Array<Array<Piece | null>>;
 export type HalfBlindBoard = Array<Array<HalfBlindPiece | null>>;
+
+export * from "chess.js";
 
 export interface HalfBlindMove extends Move {
     /**
@@ -21,12 +23,12 @@ export const DEFAULT_POSITION =
     'rnbqkbnr/pppppppp/8/8/8/8/PPPPPPPP/RNBQKBNR w KQkq - 0 1'
 
 export class HalfBlindChess implements ChessInstance {
-    private chess: ChessInstance = new Chess();
-    private moveNumber: number = 1;
-    private hbBoard: HalfBlindBoard = this.initializeHalfBlindBoard();
+    private chess = new Chess();
+    private moveNumber = 1;
+    private hbBoard = this.initializeHalfBlindBoard();
 
     private initializeHalfBlindBoard(): HalfBlindBoard {
-        const board: Board = this.board();
+        const board = this.board();
         return this.convertBoardToHalfBlindBoard(board);
     }
 
@@ -136,9 +138,9 @@ export class HalfBlindChess implements ChessInstance {
      * @param string: move in SAN format
      * @returns HalfBlindMove | null: Move result or null, if illegal
      */
-    public move(move: string): HalfBlindMove | null {
-        const moveResult: Move | null = this.chess.move(move);
-        const halfBlindMoveResult: HalfBlindMove | null =
+    public move(move: string | ShortMove): HalfBlindMove | null {
+        const moveResult = this.chess.move(move);
+        const halfBlindMoveResult =
             moveResult !== null
                 ? { ...moveResult, halfBlind: this.moveNumber % 3 == 2 }
                 : null;
@@ -162,7 +164,7 @@ export class HalfBlindChess implements ChessInstance {
                 this.squareToBoardCoordinates(halfBlindMoveResult.to),
             ];
 
-            let piece: HalfBlindPiece | null =
+            let piece =
                 this.hbBoard[fromCoordinate[0]][fromCoordinate[1]];
 
             if (piece !== null)

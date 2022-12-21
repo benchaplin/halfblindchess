@@ -1,7 +1,7 @@
 import { HalfBlindChess, HalfBlindMove } from "../";
 
 test("constructor should initialize a game board", () => {
-    const hbchess: HalfBlindChess = new HalfBlindChess();
+    const hbchess = new HalfBlindChess();
     expect(hbchess.board()).toEqual([
         [
             { color: "b", type: "r" },
@@ -51,7 +51,7 @@ test("constructor should initialize a game board", () => {
 });
 
 test("constructor should initialize a half-blind board", () => {
-    const hbchess: HalfBlindChess = new HalfBlindChess();
+    const hbchess = new HalfBlindChess();
     expect(hbchess.halfBlindBoard()).toEqual([
         [
             { halfBlind: false, color: "b", type: "r" },
@@ -107,8 +107,18 @@ test("constructor should take a fen", () => {
 });
 
 test("move should return a HalfBlindMove object if legal", () => {
-    const hbchess: HalfBlindChess = new HalfBlindChess();
-    const move: HalfBlindMove | null = hbchess.move("e4");
+    const hbchess = new HalfBlindChess();
+    const move = hbchess.move("e4");
+    expect(move?.color).toBe("w");
+    expect(move?.flags).toBe("b");
+    expect(move?.piece).toBe("p");
+    expect(move?.san).toBe("e4");
+    expect(move?.halfBlind).toBe(false);
+});
+
+test("move should accept a ShortMove and return a HalfBlindMove object if legal", () => {
+    const hbchess = new HalfBlindChess();
+    const move = hbchess.move({ from: "e2", to: "e4" });
     expect(move?.color).toBe("w");
     expect(move?.flags).toBe("b");
     expect(move?.piece).toBe("p");
@@ -117,20 +127,20 @@ test("move should return a HalfBlindMove object if legal", () => {
 });
 
 test("move should return null if illegal", () => {
-    const hbchess: HalfBlindChess = new HalfBlindChess();
-    const move: HalfBlindMove | null = hbchess.move("e5");
+    const hbchess = new HalfBlindChess();
+    const move = hbchess.move("e5");
     expect(move).toBeNull();
 });
 
 test("second move should be halfBlind", () => {
-    const hbchess: HalfBlindChess = new HalfBlindChess();
+    const hbchess = new HalfBlindChess();
     hbchess.move("e4");
-    const move: HalfBlindMove | null = hbchess.move("e5");
+    const move = hbchess.move("e5");
     expect(move?.halfBlind).toBe(true);
 });
 
 test("normal move should move the piece on the half-blind board", () => {
-    const hbchess: HalfBlindChess = new HalfBlindChess();
+    const hbchess = new HalfBlindChess();
     hbchess.move("e4");
     expect(hbchess.halfBlindAscii()).toBe(
         `   +------------------------+
@@ -148,7 +158,7 @@ test("normal move should move the piece on the half-blind board", () => {
 });
 
 test("half-blind move should not move the piece on the half-blind board", () => {
-    const hbchess: HalfBlindChess = new HalfBlindChess();
+    const hbchess = new HalfBlindChess();
     hbchess.move("e4");
     hbchess.move("e5");
     expect(hbchess.halfBlindAscii()).toBe(
@@ -167,7 +177,7 @@ test("half-blind move should not move the piece on the half-blind board", () => 
 });
 
 test("move after a half-blind move should move both the half-blind piece and the normal piece on the half-blind board", () => {
-    const hbchess: HalfBlindChess = new HalfBlindChess();
+    const hbchess = new HalfBlindChess();
     hbchess.move("e4");
     hbchess.move("e5");
     hbchess.move("Nf3");
