@@ -1,4 +1,4 @@
-import { Chess, ChessInstance, Comment, Move, Piece, ShortMove, Square } from "chess.js";
+import { ChessInstance, Comment, Move, Piece, ShortMove, Square } from "chess.js";
 
 export type Board = Array<Array<Piece | null>>;
 export type HalfBlindBoard = Array<Array<HalfBlindPiece | null>>;
@@ -23,7 +23,8 @@ export const DEFAULT_POSITION =
     'rnbqkbnr/pppppppp/8/8/8/8/PPPPPPPP/RNBQKBNR w KQkq - 0 1'
 
 export class HalfBlindChess implements ChessInstance {
-    private chess = new Chess();
+    private ChessReq = require('chess.js');
+    private chess: ChessInstance = new this.ChessReq();
     private moveNumber = 1;
     private hbBoard = this.initializeHalfBlindBoard();
 
