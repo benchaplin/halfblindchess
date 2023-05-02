@@ -163,6 +163,18 @@ chess.moves();
 //     'f3', 'f4', 'g3', 'g4', 'h3', 'h4', 'Na3', 'Nc3', 'Nf3', 'Nh3']
 ```
 
+### .lastMoveHalfBlind()
+
+Returns true if the last move was a half-blind move, false otherwise.
+
+```js
+const hbchess = new HalfBlindChess();
+hbchess.lastMoveHalfBlind(); // -> false
+hbchess.move("e4");
+hbchess.move("e5");
+hbchess.lastMoveHalfBlind(); // -> true
+```
+
 ### _the rest_
 
 The class `HalfBlindChess implements ChessInstance`, and the rest of the [chess.js API](https://github.com/jhlywa/chess.js/blob/master/README.md#api) is exposed in `HalfBlindChess`, unchanged from the underlying chess.js implementation.

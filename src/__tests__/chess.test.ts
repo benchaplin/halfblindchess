@@ -195,3 +195,36 @@ test("move after a half-blind move should move both the half-blind piece and the
      a  b  c  d  e  f  g  h\n`
     );
 });
+
+test("constructor should init moveNumber to be 1", () => {
+    const hbchess = new HalfBlindChess();
+    expect(hbchess.lastMoveHalfBlind()).toBe(false);
+    hbchess.move("e4");
+    hbchess.move("e5");
+    expect(hbchess.lastMoveHalfBlind()).toBe(true);
+});
+
+test("constructor with fen should calculate moveNumber (1 move)", () => {
+    const hbchess = new HalfBlindChess("rnbqkbnr/pppppppp/8/8/4P3/8/PPPP1PPP/RNBQKBNR b KQkq - 0 1");
+    expect(hbchess.lastMoveHalfBlind()).toBe(false);
+});
+
+test("constructor with fen should calculate moveNumber (2 moves)", () => {
+    const hbchess = new HalfBlindChess("rnbqkbnr/pppp1ppp/8/4p3/4P3/8/PPPP1PPP/RNBQKBNR w KQkq - 0 2");
+    expect(hbchess.lastMoveHalfBlind()).toBe(true);
+});
+
+test("constructor with fen should calculate moveNumber (3 moves)", () => {
+    const hbchess = new HalfBlindChess("rnbqkbnr/pppp1ppp/8/4p3/4P3/5N2/PPPP1PPP/RNBQKB1R b KQkq - 1 2");
+    expect(hbchess.lastMoveHalfBlind()).toBe(false);
+});
+
+test("constructor with fen should calculate moveNumber (4 moves)", () => {
+    const hbchess = new HalfBlindChess("r1bqkbnr/pppp1ppp/2n5/4p3/4P3/5N2/PPPP1PPP/RNBQKB1R w KQkq - 2 3");
+    expect(hbchess.lastMoveHalfBlind()).toBe(false);
+});
+
+test("constructor with fen should calculate moveNumber (5 moves)", () => {
+    const hbchess = new HalfBlindChess("r1bqkbnr/pppp1ppp/2n5/1B2p3/4P3/5N2/PPPP1PPP/RNBQK2R b KQkq - 3 3");
+    expect(hbchess.lastMoveHalfBlind()).toBe(true);
+});

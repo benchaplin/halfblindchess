@@ -1,4 +1,4 @@
-import { ChessInstance, Comment, Move, Piece, ShortMove, Square } from "chess.js";
+import { Chess, ChessInstance, Comment, Move, Piece, ShortMove, Square } from "chess.js";
 
 export type Board = Array<Array<Piece | null>>;
 export type HalfBlindBoard = Array<Array<HalfBlindPiece | null>>;
@@ -23,8 +23,7 @@ export const DEFAULT_POSITION =
     'rnbqkbnr/pppppppp/8/8/8/8/PPPPPPPP/RNBQKBNR w KQkq - 0 1'
 
 export class HalfBlindChess implements ChessInstance {
-    private ChessReq = require('chess.js');
-    private chess: ChessInstance = new this.ChessReq();
+    private chess: ChessInstance = new Chess();
     private moveNumber = 1;
     private hbBoard = this.initializeHalfBlindBoard();
 
@@ -35,6 +34,11 @@ export class HalfBlindChess implements ChessInstance {
 
     public constructor(fen = DEFAULT_POSITION) {
         this.load(fen)
+        if (fen != DEFAULT_POSITION) {
+            let calcMoveNumber = parseInt(fen.split(" ")[5]) * 2 - 1;
+            if (fen.split(" ")[1] == "b") calcMoveNumber++;
+            this.moveNumber = calcMoveNumber;
+        }
     }
 
     /** The string that represents the White color side */
@@ -66,6 +70,15 @@ export class HalfBlindChess implements ChessInstance {
 
     /** Flags used to build flag strings for moves */
     public readonly FLAGS = this.chess.FLAGS;
+
+    /**
+     * Get half-blind status of last move on the board.
+     *
+     * @returns boolean
+     */
+    public lastMoveHalfBlind(): boolean {
+        return (this.moveNumber - 1) % 3 == 2;
+    }
 
     /**
      * Get board in readable format.
