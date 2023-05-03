@@ -26,6 +26,7 @@ export class HalfBlindChess implements ChessInstance {
     private chess: ChessInstance = new Chess();
     private moveNumber = 1;
     private hbBoard = this.initializeHalfBlindBoard();
+    private prevFen = "";
 
     private initializeHalfBlindBoard(): HalfBlindBoard {
         const board = this.board();
@@ -153,14 +154,17 @@ export class HalfBlindChess implements ChessInstance {
      * @returns HalfBlindMove | null: Move result or null, if illegal
      */
     public move(move: string | ShortMove): HalfBlindMove | null {
+        const fen = this.fen();
         const moveResult = this.chess.move(move);
         const halfBlindMoveResult =
             moveResult !== null
                 ? { ...moveResult, halfBlind: this.moveNumber % 3 == 2 }
                 : null;
 
-        if (halfBlindMoveResult !== null)
+        if (halfBlindMoveResult !== null) {
             this.updateHalfBlindBoard(halfBlindMoveResult);
+            this.prevFen = fen;
+        }
 
         this.moveNumber = this.moveNumber + 1;
 
@@ -335,6 +339,20 @@ export class HalfBlindChess implements ChessInstance {
      * @returns string: board in FEN format
      */
     public fen(): string {
+        return this.chess.fen();
+    }
+
+    /**
+     * Get the half-blind board in FEN format.
+     *
+     * @returns string: half-blind board in FEN format
+     */
+    public halfBlindFen(): string {
+        if (this.moveNumber % 3 == 0) {
+            const history = this.history({ verbose: true });
+            const lastMove = history[history.length - 1];
+            return `h${lastMove.from} ${this.prevFen}`;
+        }
         return this.chess.fen();
     }
 

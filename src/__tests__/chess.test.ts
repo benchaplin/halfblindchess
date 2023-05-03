@@ -228,3 +228,34 @@ test("constructor with fen should calculate moveNumber (5 moves)", () => {
     const hbchess = new HalfBlindChess("r1bqkbnr/pppp1ppp/2n5/1B2p3/4P3/5N2/PPPP1PPP/RNBQK2R b KQkq - 3 3");
     expect(hbchess.lastMoveHalfBlind()).toBe(true);
 });
+
+test("halfBlindFen should return normal fen after a non-half-blind move", () => {
+    const hbchess = new HalfBlindChess();
+    hbchess.move("e4");
+    expect(hbchess.halfBlindFen()).toBe("rnbqkbnr/pppppppp/8/8/4P3/8/PPPP1PPP/RNBQKBNR b KQkq e3 0 1");
+});
+
+test("halfBlindFen should return previous fen after a half-blind move", () => {
+    const hbchess = new HalfBlindChess();
+    hbchess.move("e4");
+    hbchess.move("e5"); // half-blind
+    expect(hbchess.halfBlindFen()).toBe("he7 rnbqkbnr/pppppppp/8/8/4P3/8/PPPP1PPP/RNBQKBNR b KQkq e3 0 1");
+});
+
+test("after a normal move after a half-blind move, halfBlindFen should return the normal fen", () => {
+    const hbchess = new HalfBlindChess();
+    hbchess.move("e4");
+    hbchess.move("e5"); // half-blind
+    hbchess.move("Nf3");
+    expect(hbchess.halfBlindFen()).toBe("rnbqkbnr/pppp1ppp/8/4p3/4P3/5N2/PPPP1PPP/RNBQKB1R b KQkq - 1 2");
+});
+
+test("halfBlindFen should return previous fen after another half-blind move", () => {
+    const hbchess = new HalfBlindChess();
+    hbchess.move("e4");
+    hbchess.move("e5");
+    hbchess.move("Nf3");
+    hbchess.move("Nc6");
+    hbchess.move("Bc4"); // half-blind
+    expect(hbchess.halfBlindFen()).toBe("hf1 r1bqkbnr/pppp1ppp/2n5/4p3/4P3/5N2/PPPP1PPP/RNBQKB1R w KQkq - 2 3");
+});

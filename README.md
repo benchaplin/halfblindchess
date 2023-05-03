@@ -175,6 +175,22 @@ hbchess.move("e5");
 hbchess.lastMoveHalfBlind(); // -> true
 ```
 
+### .halfBlindFen()
+
+Returns the half-blind fen if a half-blind move was just played, else returns the normal fen.
+
+**Half-blind fen notation**: to the fen from last move, prepend the letter h followed by the square from which the half-blind move was made
+
+_Example_: After e4, e5 (half-blind), the fen would be: `he7 rnbqkbnr/pppppppp/8/8/4P3/8/PPPP1PPP/RNBQKBNR b KQkq e3 0 1`
+
+```js
+const hbchess = new HalfBlindChess();
+hbchess.move("e4");
+hbchess.move("e5"); // half-blind
+hbchess.halfBlindFen();
+// -> 'he7 rnbqkbnr/pppppppp/8/8/4P3/8/PPPP1PPP/RNBQKBNR b KQkq e3 0 1'
+```
+
 ### _the rest_
 
 The class `HalfBlindChess implements ChessInstance`, and the rest of the [chess.js API](https://github.com/jhlywa/chess.js/blob/master/README.md#api) is exposed in `HalfBlindChess`, unchanged from the underlying chess.js implementation.
