@@ -22,6 +22,9 @@ export interface HalfBlindPiece extends Piece {
 export const DEFAULT_POSITION =
     'rnbqkbnr/pppppppp/8/8/8/8/PPPPPPPP/RNBQKBNR w KQkq - 0 1'
 
+export const DEFAULT_HB_POSITION =
+    '0 rnbqkbnr/pppppppp/8/8/8/8/PPPPPPPP/RNBQKBNR w KQkq - 0 1'
+
 export class HalfBlindChess implements ChessInstance {
     private chess: ChessInstance = new Chess();
     private moveNumber = 1;
@@ -34,11 +37,24 @@ export class HalfBlindChess implements ChessInstance {
     }
 
     public constructor(fen = DEFAULT_POSITION) {
-        this.load(fen)
+        const fenTokens = fen.split(" ");
         if (fen != DEFAULT_POSITION) {
-            let calcMoveNumber = parseInt(fen.split(" ")[5]) * 2 - 1;
-            if (fen.split(" ")[1] == "b") calcMoveNumber++;
-            this.moveNumber = calcMoveNumber;
+            if (fenTokens.length === 6) { // normal fen
+                let calcMoveNumber = parseInt(fenTokens[5]) * 2 - 1;
+                if (fenTokens[1] == "b") calcMoveNumber++;
+                this.moveNumber = calcMoveNumber;
+
+                this.load(fen);
+            } else { // half-blind fen
+                let calcMoveNumber = parseInt(fenTokens[6]) * 2 - 1;
+                if (fenTokens[2] == "b") calcMoveNumber++;
+                this.moveNumber = calcMoveNumber;
+
+                this.load(fenTokens.slice(1).join(" "));
+                if (fenTokens[0].length === 4) { // half-blind move
+                    this.move({ from: fenTokens[0].slice(0, 2) as Square, to: fenTokens[0].slice(2, 4) as Square });
+                }
+            }
         }
     }
 
@@ -71,15 +87,6 @@ export class HalfBlindChess implements ChessInstance {
 
     /** Flags used to build flag strings for moves */
     public readonly FLAGS = this.chess.FLAGS;
-
-    /**
-     * Get half-blind status of last move on the board.
-     *
-     * @returns boolean
-     */
-    public lastMoveHalfBlind(): boolean {
-        return (this.moveNumber - 1) % 3 == 2;
-    }
 
     /**
      * Get board in readable format.
@@ -351,9 +358,10 @@ export class HalfBlindChess implements ChessInstance {
         if (this.moveNumber % 3 == 0) {
             const history = this.history({ verbose: true });
             const lastMove = history[history.length - 1];
-            return `h${lastMove.from} ${this.prevFen}`;
+            return `${lastMove.from}${lastMove.to} ${this.prevFen}`;
         }
-        return this.chess.fen();
+        const movesUntilNextHalfBlind = 2 - this.moveNumber % 3;
+        return `${movesUntilNextHalfBlind} ${this.chess.fen()}`;
     }
 
     /**

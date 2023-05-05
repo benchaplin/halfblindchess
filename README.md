@@ -2,9 +2,9 @@
 
 halfblindchess is a Javascript chess library for the half-blind chess variant. The variant works as follows:
 
-- Every third turn, starting on black's first move, a player makes a **half-blind move**.
-- A **half-blind move** is a move in which the opposing player only sees _which_ piece was moved, not _where_ it was moved to.
-  - The position of the piece remains hidden until the next turn has been made.
+-   Every third turn, starting on black's first move, a player makes a **half-blind move**.
+-   A **half-blind move** is a move in which the opposing player only sees _which_ piece was moved, not _where_ it was moved to.
+    -   The position of the piece remains hidden until the next turn has been made.
 
 This library is built on top of [chess.js](https://github.com/jhlywa/chess.js/).
 
@@ -38,7 +38,7 @@ Or, construct using a FEN.
 
 ```js
 const hbchess = new HalfBlindChess(
-  "rnbqkbnr/pppp1ppp/8/4p3/4P3/8/PPPP1PPP/RNBQKBNR w KQkq - 0 2"
+    "rnbqkbnr/pppp1ppp/8/4p3/4P3/8/PPPP1PPP/RNBQKBNR w KQkq - 0 2"
 );
 ```
 
@@ -163,32 +163,29 @@ chess.moves();
 //     'f3', 'f4', 'g3', 'g4', 'h3', 'h4', 'Na3', 'Nc3', 'Nf3', 'Nh3']
 ```
 
-### .lastMoveHalfBlind()
-
-Returns true if the last move was a half-blind move, false otherwise.
-
-```js
-const hbchess = new HalfBlindChess();
-hbchess.lastMoveHalfBlind(); // -> false
-hbchess.move("e4");
-hbchess.move("e5");
-hbchess.lastMoveHalfBlind(); // -> true
-```
-
 ### .halfBlindFen()
 
-Returns the half-blind fen if a half-blind move was just played, else returns the normal fen.
+Returns the half-blind fen notation.
 
-**Half-blind fen notation**: to the fen from last move, prepend the letter h followed by the square from which the half-blind move was made
+**Half-blind fen notation**:
 
-_Example_: After e4, e5 (half-blind), the fen would be: `he7 rnbqkbnr/pppppppp/8/8/4P3/8/PPPP1PPP/RNBQKBNR b KQkq e3 0 1`
+-   if the last move was half-blind, prepend the 'from' and 'to' squares of the half-blind move to the fen from the previous position (see exampkes 2 and 5)
+-   else, take the normal fen and prepend the number of moves until the next half-blind move (see examples 1, 3 and 4)
+
+_Examples_:
+
+1.  After **1. e4**, the fen would be: `0 rnbqkbnr/pppppppp/8/8/4P3/8/PPPP1PPP/RNBQKBNR b KQkq e3 0 1` (0 moves until the next half-blind move)
+2.  After **1. e4, e5** (half-blind), the fen would be: `e7e5 rnbqkbnr/pppppppp/8/8/4P3/8/PPPP1PPP/RNBQKBNR b KQkq e3 0 1`
+3.  After **1. e4, e5 2. Nf3**, the fen would be `1 rnbqkbnr/pppp1ppp/8/4p3/4P3/5N2/PPPP1PPP/RNBQKB1R b KQkq - 1 2` (1 move until the next half-blind move)
+4.  After **1. e4, e5 2. Nf3, Nc6**, the fen would be `0 r1bqkbnr/pppp1ppp/2n5/4p3/4P3/5N2/PPPP1PPP/RNBQKB1R w KQkq - 2 3` (0 moves until the next half-blind move)
+5.  After **1. e4, e5 2. Nf3, Nc6 3. Bc4** (half-blind), the fen would be `f1c4 r1bqkbnr/pppp1ppp/2n5/4p3/4P3/5N2/PPPP1PPP/RNBQKB1R w KQkq - 2 3`
 
 ```js
 const hbchess = new HalfBlindChess();
 hbchess.move("e4");
 hbchess.move("e5"); // half-blind
 hbchess.halfBlindFen();
-// -> 'he7 rnbqkbnr/pppppppp/8/8/4P3/8/PPPP1PPP/RNBQKBNR b KQkq e3 0 1'
+// -> 'e7e5 rnbqkbnr/pppppppp/8/8/4P3/8/PPPP1PPP/RNBQKBNR w KQkq - 0 2'
 ```
 
 ### _the rest_
